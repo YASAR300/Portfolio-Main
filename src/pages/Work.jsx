@@ -7,7 +7,7 @@ import core from '../img/core.png';
 import smootify from '../img/sm.png';
 import spotify from '../img/sp.png';
 import youtube from '../img/Youtube.png';
-import amazon from '../img/amazon.png';
+import amazon from '../img/Amazon.png';
 import Fl from '../img/fl.png';
 import kid from '../img/kid.png';
 import cl from '../img/cl.png';
