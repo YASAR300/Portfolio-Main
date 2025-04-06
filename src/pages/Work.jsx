@@ -2,6 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import img from '../img/img1.png'; 
+import untrip from '../img/un.png';
+import Furn from '../img/Furn.png';
+import Codinggita from '../img/Code.png';
+import Amazon1 from '../img/Amazon2.png';
+import Netflix1 from '../img/Netflix1.png';
 import mg from '../img/13g.png';
 import core from '../img/core.png';
 import smootify from '../img/sm.png';
@@ -22,7 +27,7 @@ const projects = [
   {
     title: 'Untrip',
     description: 'Untrip is a smart travel platform that streamlines trip planning by integrating hotels, flights, car rentals, and destination insights—all in one place.',
-    media: 'https://res.cloudinary.com/dufgbzgzi/video/upload/v1743688236/untrip1_ectlrw.mp4', // Cloudinary URL
+    media: 'https://res.cloudinary.com/dufgbzgzi/video/upload/v1743688236/untrip1_ectlrw.mp4',
     type: 'video',
     liveUrl: 'https://untrip-iuqz.onrender.com/',
     github: 'https://github.com/YASAR300/untrip',
@@ -34,7 +39,7 @@ const projects = [
   },
   {
     title: 'FlavorfulMagicFinance',
-    description: 'FlavorfulMagicFinance is a dynamic web application built using React JSX, integrating multiple APIs to offer a diverse range of features. It allows users to explore and discover delicious meal recipes, find amazing cocktail mixes, dive into the magical world of Harry Potter, and browse comprehensive bank data.',
+    description: 'FlavorfulMagicFinance is a dynamic web application built using React JSX, integrating multiple APIs to offer a diverse range of features.',
     media: Fl,
     type: 'image',
     liveUrl: 'https://project-yuvh.onrender.com/',
@@ -47,7 +52,7 @@ const projects = [
   },
   {
     title: 'youtube',
-    description: 'A YouTube clone built using React.js, CSS, and the YouTube Data API, featuring dynamic video fetching, search functionality, trending video listings, and a responsive UI.',
+    description: 'A YouTube clone built using React.js, CSS, and the YouTube Data API.',
     media: youtube,
     type: 'image',
     liveUrl: 'https://you-tube-react.onrender.com/',
@@ -60,7 +65,7 @@ const projects = [
   },
   {
     title: 'spotify',
-    description: 'A fully responsive Spotify Clone built using React.js, Tailwind CSS, and Redux, featuring a sleek UI, real-time music playback, playlist management, and dynamic animations.',
+    description: 'A fully responsive Spotify Clone built using React.js, Tailwind CSS, and Redux.',
     media: spotify,
     type: 'image',
     liveUrl: 'https://spotify-react-ilq8.onrender.com/',
@@ -73,7 +78,7 @@ const projects = [
   },
   {
     title: 'Works',
-    description: 'A work portfolio showcases completed projects in a visually appealing way, highlighting key projects through interactive and engaging UI elements.',
+    description: 'A work portfolio showcases completed projects in a visually appealing way.',
     media: works,
     type: 'image',
     liveUrl: 'https://portfolio-react-4y4h.onrender.com/',
@@ -87,7 +92,7 @@ const projects = [
   // HTML/CSS Projects
   {
     title: '13g Website',
-    description: 'A dynamic 13G website clone built using HTML, CSS, and JavaScript, featuring smooth scrolling effects, interactive hover animations, and a responsive dark-themed layout.',
+    description: 'A dynamic 13G website clone built using HTML, CSS, and JavaScript.',
     media: mg,
     type: 'image',
     liveUrl: 'https://13mg.netlify.app/',
@@ -100,7 +105,7 @@ const projects = [
   },
   {
     title: 'smootify',
-    description: 'A fully responsive Smootify clone built using HTML, CSS, and JavaScript, featuring seamless Webflow-style design integration, smooth animations, and a user-friendly storefront layout.',
+    description: 'A fully responsive Smootify clone built using HTML, CSS, and JavaScript.',
     media: smootify,
     type: 'image',
     liveUrl: 'https://smootify.netlify.app/',
@@ -113,7 +118,7 @@ const projects = [
   },
   {
     title: 'cordeliacruises',
-    description: 'A Cordelia Cruises clone built using HTML, CSS, and JavaScript, replicating the luxury cruise experience with smooth animations, interactive elements, and a visually stunning design.',
+    description: 'A Cordelia Cruises clone built using HTML, CSS, and JavaScript.',
     media: core,
     type: 'image',
     liveUrl: 'https://cordeliacruises.netlify.app/',
@@ -126,7 +131,7 @@ const projects = [
   },
   {
     title: 'youtube-clone',
-    description: 'A static YouTube clone built using HTML, CSS, and JavaScript, featuring a clean and responsive design. The layout includes a homepage with a video grid, a sidebar for navigation, and a detailed video player page.',
+    description: 'A static YouTube clone built using HTML, CSS, and JavaScript.',
     media: youtube,
     type: 'image',
     liveUrl: 'https://youtube-5.netlify.app/',
@@ -139,7 +144,7 @@ const projects = [
   },
   {
     title: 'Amazon',
-    description: 'An Amazon Clone built using HTML, CSS, and JavaScript, designed to replicate the look and feel of the original e-commerce platform.',
+    description: 'An Amazon Clone built using HTML, CSS, and JavaScript.',
     media: amazon,
     type: 'image',
     liveUrl: 'https://amazon-clone-page-1.netlify.app/',
@@ -152,7 +157,7 @@ const projects = [
   },
   {
     title: 'Kid',
-    description: 'A dynamic Kids E-Commerce Website Clone built using modern web technologies, featuring a vibrant and playful design.',
+    description: 'A dynamic Kids E-Commerce Website Clone.',
     media: kid,
     type: 'image',
     liveUrl: 'https://kid-1.netlify.app/',
@@ -165,7 +170,7 @@ const projects = [
   },
   {
     title: 'Netflix',
-    description: 'A Netflix Clone built using HTML and CSS, featuring a visually rich and responsive design that replicates the look and feel of the original Netflix homepage.',
+    description: 'A Netflix Clone built using HTML and CSS.',
     media: netflix,
     type: 'image',
     liveUrl: 'https://page-one-netfliix.netlify.app/',
@@ -177,8 +182,8 @@ const projects = [
     order: 5
   },
   {
-    title: 'calculater',
-    description: 'A Calculator built using HTML, CSS, and JavaScript, featuring a simple yet sleek user interface.',
+    title: 'calculator',
+    description: 'A Calculator built using HTML, CSS, and JavaScript.',
     media: cl,
     type: 'image',
     liveUrl: 'https://calculater-2.netlify.app/',
@@ -191,7 +196,7 @@ const projects = [
   },
   {
     title: 'Chess',
-    description: 'A Chess Game built using HTML, CSS, and JavaScript, featuring a fully interactive chessboard with smooth animations and intuitive gameplay.',
+    description: 'A Chess Game built using HTML, CSS, and JavaScript.',
     media: chess,
     type: 'image',
     liveUrl: 'https://chess-1.netlify.app/',
@@ -204,11 +209,11 @@ const projects = [
   },
   // Figma Projects
   {
-    title: 'Mobile Banking UI',
-    description: 'User-friendly mobile banking interface design.',
-    media: img,
+    title: 'Untrip (Figma)',
+    description: 'Untrip is a smart travel platform that streamlines trip planning by integrating hotels, flights, car rentals, and destination insights—all in one place.',
+    media: untrip,
     type: 'image',
-    liveUrl: 'https://figma.com/proto/mobile-banking',
+    liveUrl: 'https://www.figma.com/proto/gQcM2hxRY0cqrN2irhow0u/Untrip?page-id=0%3A1&node-id=0-3&viewport=231%2C179%2C0.29&t=mAhjzLvlDGVL7uTU-1&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=0%3A3',
     github: 'https://github.com/username/banking-ui',
     tech: ['Figma', 'UI Design', 'Prototyping'],
     features: ['Interactive Prototype', 'Design System', 'User Flows'],
@@ -217,11 +222,24 @@ const projects = [
     order: 1
   },
   {
-    title: 'Fitness App Design',
-    description: 'Complete design system for a fitness tracking app.',
-    media: img,
+    title: 'Furn',
+    description: 'This Figma design is for a stylish, clean, and modern Furniture E-commerce website. It focuses on simplicity, smooth user experience, and aesthetic presentation of furniture products. The UI combines minimalistic layout with elegant fonts and soothing color schemes to reflect premium quality.',
+    media: Furn,
     type: 'image',
-    liveUrl: 'https://figma.com/proto/fitness-app',
+    liveUrl: 'https://www.figma.com/proto/z1JIWe7GYytnR78Qj87tEr/Furn?page-id=0%3A1&node-id=1-3501&viewport=498%2C133%2C0.06&t=PJYRZncEzYk4e78J-1&scaling=scale-down-width&content-scaling=fixed',
+    github: 'https://github.com/username/fitness-design',
+    tech: ['Figma', 'UX Research', 'Wireframing'],
+    features: ['Component Library', 'Style Guide', 'Responsive Design'],
+    category: 'figma',
+    color: 'from-orange-500 to-red-600',
+    order: 3
+  },
+  {
+    title: 'Codinggita',
+    description: 'This Figma design is for a stylish, clean, and modern Furniture E-commerce website. It focuses on simplicity, smooth user experience, and aesthetic presentation of furniture products. The UI combines minimalistic layout with elegant fonts and soothing color schemes to reflect premium quality.',
+    media: Codinggita,
+    type: 'image',
+    liveUrl: 'https://www.figma.com/proto/vFgvEVKuZFfZpwvWIhrHhY/Coding?page-id=0%3A1&node-id=2-40&viewport=448%2C272%2C0.25&t=cI6ZObe5nD2BEO9V-1&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=2%3A40',
     github: 'https://github.com/username/fitness-design',
     tech: ['Figma', 'UX Research', 'Wireframing'],
     features: ['Component Library', 'Style Guide', 'Responsive Design'],
@@ -229,11 +247,36 @@ const projects = [
     color: 'from-orange-500 to-red-600',
     order: 2
   },
+  {
+    title: 'Amazon1',
+    description: 'The Figma design for the **CodingGita** website is meticulously crafted to reflect the institutions commitment to providing top-tier computer science education with a strong emphasis on practical experience and assured placements. The design employs a modern, clean aesthetic to effectively communicate key information and engage prospective students.',
+    media: Amazon1,
+    type: 'image',
+    liveUrl: 'https://www.figma.com/proto/6j55Iom4ZRiezl3xwSHefU/Untitled?page-id=0%3A1&node-id=2-2&p=f&viewport=451%2C375%2C0.28&t=nKoBjtPZN8uv2wel-1&scaling=scale-down-width&content-scaling=fixed',
+    github: 'https://github.com/username/fitness-design',
+    tech: ['Figma', 'UX Research', 'Wireframing'],
+    features: ['Component Library', 'Style Guide', 'Responsive Design'],
+    category: 'figma',
+    color: 'from-orange-500 to-red-600',
+    order: 4
+  },
+  {
+    title: 'Netflix1',
+    description: 'The Netflix-style Figma website design mimics the sleek, modern look of a premium OTT (Over-The-Top) streaming platform. It focuses on providing an immersive and intuitive user experience with dynamic visuals, bold typography, and fluid navigation.',
+    media: Netflix1,
+    type: 'image',
+    liveUrl: 'https://www.figma.com/proto/lsHa9EhwCVsyrcdd538GQd/Untitled?page-id=0%3A1&node-id=1-2&p=f&viewport=425%2C354%2C0.52&t=E2rCN1rWQJqkNQVo-1&scaling=scale-down-width&content-scaling=fixed',
+    tech: ['Figma', 'UX Research', 'Wireframing'],
+    features: ['Component Library', 'Style Guide', 'Responsive Design'],
+    category: 'figma',
+    color: 'from-orange-500 to-red-600',
+    order: 5
+  },
   // MERN Projects
   {
     title: 'Untrip',
-    description: 'Untrip is a smart travel platform that streamlines trip planning by integrating hotels, flights, car rentals, and destination insights—all in one place.',
-    media: 'https://res.cloudinary.com/dufgbzgzi/video/upload/v1743688236/untrip1_ectlrw.mp4', // Cloudinary URL
+    description: 'Untrip is a smart travel platform that streamlines trip planning.',
+    media: 'https://res.cloudinary.com/dufgbzgzi/video/upload/v1743688236/untrip1_ectlrw.mp4',
     type: 'video',
     liveUrl: 'https://untrip-iuqz.onrender.com/',
     github: 'https://github.com/YASAR300/untrip',
@@ -286,10 +329,13 @@ const globalOrder = [
   'Amazon',
   'Kid',
   'Netflix',
-  'calculater',
+  'calculator',
   'Chess',
-  'Mobile Banking UI',
-  'Fitness App Design',
+  'Untrip (Figma)',
+  'Furn',
+  'Codinggita',
+  'Amazon1',
+  'Netflix1',
   'Authentication API',
   'Payment Gateway API'
 ];
@@ -302,7 +348,6 @@ const Work = () => {
   const [videoStates, setVideoStates] = useState([]);
 
   useEffect(() => {
-    // Initialize video states for projects with videos
     setVideoStates(projects.map(project => project.type === 'video' ? ({
       isPlaying: false,
       isMuted: true,
@@ -313,7 +358,6 @@ const Work = () => {
 
   useEffect(() => {
     const validRefs = projectRefs.current.filter(ref => ref !== null && ref !== undefined);
-
     const ctx = gsap.context(() => {
       if (validRefs.length > 0) {
         gsap.fromTo(
@@ -334,28 +378,22 @@ const Work = () => {
         );
       }
     }, containerRef);
-
     return () => ctx.revert();
   }, [activeTab]);
 
-  // Filter and sort projects based on active tab
   const getFilteredProjects = () => {
     let filtered = projects;
-
     if (activeTab !== 'all') {
-      // For specific categories, sort by category-specific order
       filtered = projects
         .filter(project => project.category === activeTab)
         .sort((a, b) => a.order - b.order);
     } else {
-      // For "All Projects", sort based on globalOrder
       filtered = [...projects].sort((a, b) => {
         const aIndex = globalOrder.indexOf(a.title);
         const bIndex = globalOrder.indexOf(b.title);
         return aIndex - bIndex;
       });
     }
-
     return filtered;
   };
 
@@ -368,18 +406,9 @@ const Work = () => {
     setVideoStates(prevStates => {
       const newStates = [...prevStates];
       const newIsPlaying = !prevStates[index]?.isPlaying;
-      
-      if (newIsPlaying) {
-        video.play();
-      } else {
-        video.pause();
-      }
-      
-      newStates[index] = {
-        ...prevStates[index],
-        isPlaying: newIsPlaying
-      };
-      
+      if (newIsPlaying) video.play();
+      else video.pause();
+      newStates[index] = { ...prevStates[index], isPlaying: newIsPlaying };
       return newStates;
     });
   };
@@ -391,14 +420,8 @@ const Work = () => {
     setVideoStates(prevStates => {
       const newStates = [...prevStates];
       const newIsMuted = !prevStates[index]?.isMuted;
-      
       video.muted = newIsMuted;
-      
-      newStates[index] = {
-        ...prevStates[index],
-        isMuted: newIsMuted
-      };
-      
+      newStates[index] = { ...prevStates[index], isMuted: newIsMuted };
       return newStates;
     });
   };
@@ -409,14 +432,9 @@ const Work = () => {
     
     const volume = parseFloat(value);
     video.volume = volume;
-    
     setVideoStates(prevStates => {
       const newStates = [...prevStates];
-      newStates[index] = {
-        ...prevStates[index],
-        volume: volume
-      };
-      
+      newStates[index] = { ...prevStates[index], volume: volume };
       return newStates;
     });
   };
@@ -427,14 +445,9 @@ const Work = () => {
     
     const rate = parseFloat(value);
     video.playbackRate = rate;
-    
     setVideoStates(prevStates => {
       const newStates = [...prevStates];
-      newStates[index] = {
-        ...prevStates[index],
-        playbackRate: rate
-      };
-      
+      newStates[index] = { ...prevStates[index], playbackRate: rate };
       return newStates;
     });
   };
@@ -442,11 +455,7 @@ const Work = () => {
   const handleVideoEnd = (index) => {
     setVideoStates(prevStates => {
       const newStates = [...prevStates];
-      newStates[index] = {
-        ...prevStates[index],
-        isPlaying: false
-      };
-      
+      newStates[index] = { ...prevStates[index], isPlaying: false };
       return newStates;
     });
   };
@@ -458,7 +467,6 @@ const Work = () => {
           My Projects
         </h2>
 
-        {/* Tabs Navigation */}
         <div className="flex justify-center gap-3 mb-12 flex-wrap">
           {[
             { id: 'all', label: 'All Projects' },
@@ -482,7 +490,6 @@ const Work = () => {
           ))}
         </div>
 
-        {/* Masonry Grid */}
         <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
           {filteredProjects.map((project, index) => (
             <div
@@ -580,11 +587,7 @@ const Work = () => {
                                 <option className="bg-black" value="2">2x</option>
                               </select>
                               <button 
-                                onClick={() => {
-                                  if (videoRefs.current[index]?.requestFullscreen) {
-                                    videoRefs.current[index].requestFullscreen();
-                                  }
-                                }}
+                                onClick={() => videoRefs.current[index]?.requestFullscreen?.()}
                                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                                 aria-label="Full Screen"
                               >
@@ -659,17 +662,19 @@ const Work = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 px-4 py-2 bg-transparent border border-white/20 rounded-lg text-sm font-medium hover:bg-white/10 transition-all flex items-center justify-center gap-1"
-                    >
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                      </svg>
-                      <span>Code</span>
-                    </a>
+                    {project.category !== 'figma' && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 px-4 py-2 bg-transparent border border-white/20 rounded-lg text-sm font-medium hover:bg-white/10 transition-all flex items-center justify-center gap-1"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        <span>Code</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
