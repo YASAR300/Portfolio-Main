@@ -1,12 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import emailjs from '@emailjs/browser';
+
+// Define constants with fallback values
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
 
 const Contact = () => {
   const formRef = useRef(null);
   const socialRef = useRef(null);
   const infoRef = useRef(null);
+  const form = useRef();
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
     const ctx = gsap.context(() => {
       gsap.from(formRef.current, {
         y: 100,
@@ -36,6 +46,45 @@ const Contact = () => {
     return () => ctx.revert();
   }, []);
 
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setStatus('Sending...');
+
+    const metaData = {
+      timestamp: new Date().toISOString(),
+      source: 'Contact Form',
+      userAgent: navigator.userAgent,
+      pageUrl: window.location.href
+    };
+
+    const formData = new FormData(form.current);
+    const formValues = Object.fromEntries(formData);
+
+    const emailData = {
+      ...formValues,
+      meta: JSON.stringify(metaData)
+    };
+
+    emailjs
+      .send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        emailData,
+        EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        () => {
+          setStatus('Message sent successfully!');
+          form.current.reset();
+          setTimeout(() => setStatus(''), 3000);
+        },
+        (error) => {
+          setStatus(`Failed to send: ${error.text}`);
+          setTimeout(() => setStatus(''), 3000);
+        }
+      );
+  };
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
       <div className="max-w-7xl mx-auto">
@@ -58,7 +107,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <span className="block text-gray-300">Location</span>
-                    <span className="text-lg">San Francisco, CA</span>
+                    <span className="text-lg">Ahmedabad</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -67,7 +116,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <span className="block text-gray-300">Email</span>
-                    <span className="text-lg">hello@example.com</span>
+                    <span className="text-lg">yasar.khan.cg@gmail.com</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -76,7 +125,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <span className="block text-gray-300">Phone</span>
-                    <span className="text-lg">+1 (555) 123-4567</span>
+                    <span className="text-lg">+91 6351786420</span>
                   </div>
                 </div>
               </div>
@@ -113,60 +162,80 @@ const Contact = () => {
           </div>
 
           <form
-            ref={formRef}
+            ref={form}
+            onSubmit={sendEmail}
             className="space-y-8 bg-white/5 backdrop-blur-sm rounded-2xl p-8"
-            onSubmit={(e) => e.preventDefault()}
           >
-            <div>
-              <label htmlFor="name" className="block text-lg mb-2">
-                Name
-              </label>
+            <div ref={formRef}>
+              <div>
+                <label htmlFor="name" className="block text-lg mb-2">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-lg mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                  placeholder="your@email.com"
+                />
+              </div>
+              <div>
+                <label htmlFor="subject" className="block text-lg mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  required
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                  placeholder="Project inquiry"
+                />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-lg mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  required
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
+                  placeholder="Tell me about your project..."
+                />
+              </div>
               <input
-                type="text"
-                id="name"
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                placeholder="Your name"
+                type="hidden"
+                name="meta"
+                value=""
               />
+              <button
+                type="submit"
+                className="w-full bg-white text-black py-4 rounded-lg text-lg font-medium hover:bg-opacity-90 transition-all transform hover:scale-105"
+              >
+                Send Message
+              </button>
+              {status && (
+                <p className={`text-center mt-4 ${status.includes('Failed') ? 'text-red-500' : 'text-green-500'}`}>
+                  {status}
+                </p>
+              )}
             </div>
-            <div>
-              <label htmlFor="email" className="block text-lg mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                placeholder="your@email.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="subject" className="block text-lg mb-2">
-                Subject
-              </label>
-              <input
-                type="text"
-                id="subject"
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                placeholder="Project inquiry"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-lg mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={6}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-white transition-colors"
-                placeholder="Tell me about your project..."
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-white text-black py-4 rounded-lg text-lg font-medium hover:bg-opacity-90 transition-all transform hover:scale-105"
-            >
-              Send Message
-            </button>
           </form>
         </div>
       </div>
