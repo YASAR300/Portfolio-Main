@@ -77,7 +77,7 @@ const AboutMe = () => {
 
         {/* Call to Action Buttons */}
         <div className="mt-6 flex gap-4">
-          <Link to="/resume.pdf" target="_blank" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-all">
+          <Link to="https://drive.google.com/drive/folders/1ZPW69WtM7shgkd5SnUUSoODtMvOXeH2v?usp=drive_link" target="_blank" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-all">
             Download Resume
           </Link>
           <Link to="/contact" className="px-6 py-3 border border-white rounded-lg text-white font-semibold hover:bg-white hover:text-black transition-all">
