@@ -172,7 +172,7 @@ const SkillsOpenSourceSection = () => {
             </div>
             <div className="flex gap-4">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/YASAR300"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors flex items-center gap-2 group"
@@ -185,7 +185,7 @@ const SkillsOpenSourceSection = () => {
                 View Profile
               </a>
               <a
-                href="https://github.com/yourusername?tab=repositories"
+                href="https://github.com/YASAR300?tab=repositories"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-purple-500/20 rounded-lg hover:bg-purple-500/30 transition-colors flex items-center gap-2 group"
