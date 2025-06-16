@@ -12,6 +12,8 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@studio-freight/lenis": "^1.0.42",
+    "axios": "^1.10.0",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.4.7",
     "gsap": "^3.12.7",
     "lucide-react": "^0.477.0",
