@@ -1,6 +1,62 @@
 import React from 'react';
+// ADDED: Import useState, useEffect, axios, and date-fns
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { formatDistanceToNow } from 'date-fns';
 
 const SkillsOpenSourceSection = () => {
+  // ADDED: State for live repository data, loading, and error
+  const [liveRepos, setLiveRepos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // ADDED: Function to fetch live data from GitHub API
+  const fetchRepoData = async () => {
+    setLoading(true);
+    setError(null);
+    const repoUrls = [
+      { owner: 'codinggita', repo: 'event_tracker' },
+      { owner: 'codinggita', repo: 'ironcore_gym' },
+      { owner: 'codinggita', repo: 'fin_ctrl' },
+    ];
+
+    try {
+      const repoPromises = repoUrls.map(async ({ owner, repo }) => {
+        const response = await axios.get(`https://api.github.com/repos/${owner}/${repo}`, {
+          // ADDED: Optional PAT for higher rate limits (uncomment and add your token)
+          // headers: { Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}` }
+        });
+        console.log(`Fetched data for ${owner}/${repo}:`, response.data); // ADDED: Debug log
+        const staticRepo = repositories.find(r => r.repo === repo) || {};
+        return {
+          repo: repo,
+          description: response.data.description || staticRepo.description || 'No description available',
+          stars: response.data.stargazers_count || 0,
+          forks: response.data.forks_count || 0,
+          language: response.data.language || staticRepo.language || 'Unknown',
+          lastUpdated: response.data.pushed_at
+            ? formatDistanceToNow(new Date(response.data.pushed_at), { addSuffix: true })
+            : staticRepo.lastUpdated || 'Unknown',
+          openIssues: response.data.open_issues_count || 0,
+          repoUrl: response.data.html_url || staticRepo.repoUrl || '#',
+        };
+      });
+      const updatedRepos = await Promise.all(repoPromises);
+      setLiveRepos(updatedRepos);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching GitHub data:', error.response ? error.response.data : error.message); // ADDED: Detailed error log
+      setError('Failed to fetch GitHub data. Using static data.');
+      setLiveRepos(repositories);
+      setLoading(false);
+    }
+  };
+
+  // ADDED: useEffect to fetch data on component mount
+  useEffect(() => {
+    fetchRepoData();
+  }, []);
+
   const repositories = [
     {
       repo: 'event_tracker',
@@ -172,7 +228,7 @@ const SkillsOpenSourceSection = () => {
             </div>
             <div className="flex gap-4">
               <a
-                href="https://github.com/YASAR300"
+                href="https://github.com/yourusername"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors flex items-center gap-2 group"
@@ -185,7 +241,7 @@ const SkillsOpenSourceSection = () => {
                 View Profile
               </a>
               <a
-                href="https://github.com/YASAR300?tab=repositories"
+                href="https://github.com/yourusername?tab=repositories"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-purple-500/20 rounded-lg hover:bg-purple-500/30 transition-colors flex items-center gap-2 group"
@@ -204,76 +260,83 @@ const SkillsOpenSourceSection = () => {
           </div>
 
           {/* Featured Repositories */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {repositories.map((repo) => (
-              <div key={repo.repo} className="bg-white/5 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10">
-                <h4 className="text-xl font-bold mb-2 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-                    <line x1="12" y1="11" x2="12" y2="17" />
-                    <line x1="9" y1="14" x2="15" y2="14" />
-                  </svg>
-                  {repo.repo}
-                </h4>
-                <p className="text-gray-300 mb-4 text-sm">{repo.description}</p>
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-2">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          {/* ADDED: Display loading or error states */}
+          {loading ? (
+            <div className="text-center text-gray-300">Loading repository data...</div>
+          ) : error ? (
+            <div className="text-center text-red-400">{error}</div>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-8">
+              {(liveRepos.length > 0 ? liveRepos : repositories).map((repo) => (
+                <div key={repo.repo} className="bg-white/5 rounded-xl p-6 hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10">
+                  <h4 className="text-xl font-bold mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                      <line x1="12" y1="11" x2="12" y2="17" />
+                      <line x1="9" y1="14" x2="15" y2="14" />
                     </svg>
-                    {repo.stars}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="18" r="3" />
-                      <circle cx="6" cy="6" r="3" />
-                      <circle cx="18" cy="6" r="3" />
-                      <path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9" />
-                      <path d="M12 12v3" />
+                    {repo.repo}
+                  </h4>
+                  <p className="text-gray-300 mb-4 text-sm">{repo.description}</p>
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-2">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                      {repo.stars}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="18" r="3" />
+                        <circle cx="6" cy="6" r="3" />
+                        <circle cx="18" cy="6" r="3" />
+                        <path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9" />
+                        <path d="M12 12v3" />
+                      </svg>
+                      {repo.forks}
+                    </span>
+                    <span className="px-2 py-1 bg-purple-500/20 rounded-full flex items-center gap-1">
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                      </svg>
+                      {repo.language}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 mb-4 flex items-center gap-2">
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 8v4" />
+                        <path d="M12 16h.01" />
+                      </svg>
+                      Issues: {repo.openIssues}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      Updated: {repo.lastUpdated}
+                    </span>
+                  </div>
+                  <a
+                    href={repo.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors text-sm font-medium group"
+                  >
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
-                    {repo.forks}
-                  </span>
-                  <span className="px-2 py-1 bg-purple-500/20 rounded-full flex items-center gap-1">
-                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="16 18 22 12 16 6" />
-                      <polyline points="8 6 2 12 8 18" />
-                    </svg>
-                    {repo.language}
-                  </span>
+                    View Repo
+                  </a>
                 </div>
-                <div className="text-xs text-gray-500 mb-4 flex items-center gap-2">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M12 8v4" />
-                      <path d="M12 16h.01" />
-                    </svg>
-                    Issues: {repo.openIssues}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                    Updated: {repo.lastUpdated}
-                  </span>
-                </div>
-                <a
-                  href={repo.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors text-sm font-medium group"
-                >
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                    <polyline points="15 3 21 3 21 9" />
-                    <line x1="10" y1="14" x2="21" y2="3" />
-                  </svg>
-                  View Repo
-                </a>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
