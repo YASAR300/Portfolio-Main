@@ -1,62 +1,62 @@
-import React, { useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-// import Home from './pages/Home';
-import Home from './pages/Homee';
-import Work from './pages/Work';
-import Contact from './pages/Contact';
-import About from './pages/About';
-import Lenis from '@studio-freight/lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import CustomCursor from './components/CustomCursor';
+import { useEffect, useState } from 'react';
+import './App.css';
 
-gsap.registerPlugin(ScrollTrigger);
+const NEW_URL = 'https://yasar-khan.vercel.app/';
 
-function App() {
-  const containerRef = useRef(null);
+export default function App() {
+  const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    // Initialize smooth scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      smoothTouch: false,
-      touchMultiplier: 2,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    // Clean up
-    return () => {
-      lenis.destroy();
-    };
+    // Show message briefly then redirect
+    const t = setTimeout(() => {
+      setLeaving(true);
+      setTimeout(() => { window.location.href = NEW_URL; }, 400);
+    }, 1500);
+    return () => clearTimeout(t);
   }, []);
 
+  function handleGo() {
+    setLeaving(true);
+    setTimeout(() => { window.location.href = NEW_URL; }, 300);
+  }
+
   return (
-    <Router>
-      <div ref={containerRef} className="relative bg-black text-white">
-        <CustomCursor />
-        <Navbar />
-        <main className="relative">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/work" element={<Work />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </main>
+    <div className={`redirect-root ${leaving ? 'leaving' : ''}`}>
+      <div className="noise" />
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="grid-bg" />
+
+      <div className="card">
+        <div className="badge">
+          <span className="badge-dot" />
+          Portfolio Moved
+        </div>
+
+        <h1 className="heading">
+          I've moved<br />
+          <span className="heading-accent">to a new home.</span>
+        </h1>
+
+        <p className="subtext">
+          This portfolio is no longer maintained.<br />
+          Redirecting you automatically…
+        </p>
+
+        <div className="url-pill">
+          <span className="url-dot" />
+          <span className="url-text">yasar-khan.vercel.app</span>
+        </div>
+
+        <button className="cta-btn" onClick={handleGo}>
+          <span>Visit Now</span>
+          <svg className="arrow" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
-    </Router>
+
+      <p className="footer-note">© Yasar Khan · {new Date().getFullYear()}</p>
+    </div>
   );
 }
-
-export default App;
